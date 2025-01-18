@@ -6,13 +6,13 @@ import (
 
 	"fmt"
 
-	"github.com/VolodymyrShabat/testTask27NerdsAuthService/internal/config"
-	"github.com/VolodymyrShabat/testTask27NerdsAuthService/internal/handlers"
-	pb "github.com/VolodymyrShabat/testTask27NerdsAuthService/internal/proto" // Import the generated proto package
+	"github.com/VolodymyrShabat/testTask27Nerds/auth-service/internal/config"
+	"github.com/VolodymyrShabat/testTask27Nerds/auth-service/internal/handlers"
+	pb "github.com/VolodymyrShabat/testTask27Nerds/auth-service/internal/proto" // Import the generated proto package
 	"google.golang.org/grpc"
 )
 
-type authServer struct {
+type AuthServer struct {
 	pb.UnimplementedAuthServiceServer
 }
 

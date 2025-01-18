@@ -4,10 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	authpb "github.com/VolodymyrShabat/TestMicroservices/auth-service/proto/auth" // gRPC generated code
 	"net/http"
 	"time"
-
-	authpb "github.com/VolodymyrShabat/testTask27Nerds/auth-service/proto/auth" // gRPC generated code
 )
 
 // LoginRequest is what we expect from the client

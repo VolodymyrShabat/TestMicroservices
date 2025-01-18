@@ -1,4 +1,4 @@
-module github.com/VolodymyrShabat/testTask27Nerds/api-gateway
+module github.com/VolodymyrShabat/TestMicroservices/api-gateway
 
 go 1.20
 

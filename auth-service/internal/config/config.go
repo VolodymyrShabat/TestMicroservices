@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 
-	"github.com/VolodymyrShabat/testTask27NerdsAuthService/internal/models"
+	"github.com/VolodymyrShabat/TestMicroservices/auth-service/internal/models"
 	"github.com/spf13/viper"
 )
 

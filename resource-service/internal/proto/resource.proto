@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "github.com/VolodymyrShabat/TestMicroservices/resource-service/internal/proto;resourcepb";
+// The ResourceService definition
+
+service ResourceService {
+  // Retrieves all users; only authenticated users can access this
+  rpc GetUsers (EmptyRequest) returns (Users);
+
+  // Retrieves all books
+  rpc GetBooks (EmptyRequest) returns (Books);
+}
+
+// Message for user information
+message User {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  repeated string roles = 4; // List of roles associated with the user
+}
+
+// Message for list of users
+message Users {
+  repeated User users = 1;
+}
+
+// Message for book information
+message Book {
+  string id = 1;
+  string title = 2;
+  string author = 3;
+}
+
+// Message for list of books
+message Books {
+  repeated Book books = 1;
+}
+
+message EmptyRequest {}
