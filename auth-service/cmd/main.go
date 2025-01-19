@@ -6,9 +6,9 @@ import (
 
 	"fmt"
 
-	"github.com/VolodymyrShabat/testTask27Nerds/auth-service/internal/config"
-	"github.com/VolodymyrShabat/testTask27Nerds/auth-service/internal/handlers"
-	pb "github.com/VolodymyrShabat/testTask27Nerds/auth-service/internal/proto" // Import the generated proto package
+	"github.com/VolodymyrShabat/TestMicroservices/auth-service/internal/config"
+	"github.com/VolodymyrShabat/TestMicroservices/auth-service/internal/handlers"
+	pb "github.com/VolodymyrShabat/TestMicroservices/auth-service/pkg/proto" // Import the generated proto package
 	"google.golang.org/grpc"
 )
 

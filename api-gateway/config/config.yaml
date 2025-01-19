@@ -1,2 +1,6 @@
 server:
   port: 8080
+  writeTimeout: 15
+  readTimeout: 15
+  authPort: 50051
+  resourcesPort: 50052
