@@ -72,23 +72,3 @@ Response:
     }
 ]
 ```
-
-### GetUsers GET http://localhost:8080/api/v1/books
-
-Response:
-```
-[
-    {
-        "author": "J.K.Rowling",
-        "title": "Harry Potter 1"
-    },
-    {
-        "author": "J.K.Rowling",
-        "title": "Harry Potter 2"
-    },
-    {
-        "author": "J.R.R. Tolkien",
-        "title": "Lord of the Rings"
-    }
-]
-```
