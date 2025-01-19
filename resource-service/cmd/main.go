@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	path := os.Getenv("cfg-path")
+	path := os.Getenv("CFG_PATH")
 	if path == "" {
 		path = "./config"
 	}
