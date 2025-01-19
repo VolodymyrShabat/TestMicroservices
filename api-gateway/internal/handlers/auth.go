@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	authpb "github.com/VolodymyrShabat/TestMicroservices/auth-service/proto/auth" // gRPC generated code
+	authpb "github.com/VolodymyrShabat/TestMicroservices" // gRPC generated code
 	"net/http"
 	"time"
 )
@@ -29,7 +29,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	resp, err := authClient.Login(ctx, &authpb.L{
+	resp, err := authpb.Login(ctx, &authpb.L{
 		Username: reqData.Username,
 		Password: reqData.Password,
 	})

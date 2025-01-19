@@ -1,4 +1,5 @@
 github.com/VolodymyrShabat/TestMicroservices v0.1.2 h1:MYIer3FmbdHJ80Yp9xMf7vMWN11l2cgHMUZROTptpvE=
 github.com/VolodymyrShabat/TestMicroservices v0.1.2/go.mod h1:L0eCAbhUk4e+FqgFgV8vf3UAaaZRFFcqigZi6Af8tyU=
+github.com/VolodymyrShabat/TestMicroservices v1.0.1/go.mod h1:L0eCAbhUk4e+FqgFgV8vf3UAaaZRFFcqigZi6Af8tyU=
 github.com/gorilla/mux v1.8.1 h1:TuBL49tXwgrFYWhqrNgrUNEY92u81SPhu7sTdzQEiWY=
 github.com/gorilla/mux v1.8.1/go.mod h1:AKf9I4AEqPTmMytcMc0KkNouC66V3BtZ4qD5fmWSiMQ=
