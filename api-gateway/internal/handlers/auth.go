@@ -29,7 +29,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	resp, err := authClient.Login(ctx, &authpb.AuthRequest{
+	resp, err := authClient.Login(ctx, &authpb.L{
 		Username: reqData.Username,
 		Password: reqData.Password,
 	})
