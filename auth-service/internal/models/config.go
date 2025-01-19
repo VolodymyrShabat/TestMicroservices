@@ -1,9 +1,11 @@
 package models
 
 type Config struct {
-	Server ServerConfig `mapstructure:"server"`
+	Server ServerConfig
 }
 
 type ServerConfig struct {
-	Port int `mapstructure:"port"`
+	Port      int
+	JwtSecret string
+	Salt      string
 }

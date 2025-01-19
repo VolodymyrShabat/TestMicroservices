@@ -1,50 +1,52 @@
 package handlers
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
-	resourcepb "github.com/VolodymyrShabat/TestMicroservices/resource-service/pkg/proto"
+	"github.com/VolodymyrShabat/TestMicroservices/api-gateway/internal/services"
 	"net/http"
-	"time"
 )
 
-type ResourceHandlers struct {
-	ResourceClient resourcepb.ResourceServiceClient
+type ResourcesHandlers struct {
+	ResourcesService *services.ResourcesService
 }
 
-// LoginHandler handles /login requests by forwarding them to the Auth microservice.
-func (h *ResourceHandlers) GetUsersHandler(w http.ResponseWriter, r *http.Request) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+func NewResourcesHandlers(resourcesService *services.ResourcesService) *ResourcesHandlers {
+	return &ResourcesHandlers{
+		ResourcesService: resourcesService,
+	}
+}
 
-	resp, err := h.ResourceClient.GetUsers(ctx, &resourcepb.EmptyRequest{})
+func (h *ResourcesHandlers) GetUsersHandler(w http.ResponseWriter, r *http.Request) {
+	users, err := h.ResourcesService.GetUsers()
 	if err != nil {
-		// You can map different error types to different status codes if you like
-		http.Error(w, fmt.Sprintf("Resource service error: %v", err), http.StatusUnauthorized)
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]interface{}{
-		"users": resp.GetUsers(),
-	})
+	err = json.NewEncoder(w).Encode(users)
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }
 
-// LoginHandler handles /login requests by forwarding them to the Auth microservice.
-func (h *ResourceHandlers) GetBooksHandler(w http.ResponseWriter, r *http.Request) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	resp, err := h.ResourceClient.GetBooks(ctx, &resourcepb.EmptyRequest{})
+func (h *ResourcesHandlers) GetBooksHandler(w http.ResponseWriter, r *http.Request) {
+	books, err := h.ResourcesService.GetBooks()
 	if err != nil {
-		// You can map different error types to different status codes if you like
-		http.Error(w, fmt.Sprintf("Resource service error: %v", err), http.StatusUnauthorized)
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]interface{}{
-		"books": resp.GetBooks(),
-	})
+	err = json.NewEncoder(w).Encode(books)
+	if err != nil {
+		fmt.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }

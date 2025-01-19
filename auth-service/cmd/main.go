@@ -3,22 +3,24 @@ package main
 import (
 	"log"
 	"net"
+	"os"
 
 	"fmt"
 
 	"github.com/VolodymyrShabat/TestMicroservices/auth-service/internal/config"
 	"github.com/VolodymyrShabat/TestMicroservices/auth-service/internal/handlers"
+	"github.com/VolodymyrShabat/TestMicroservices/auth-service/internal/middlewares"
+	"github.com/VolodymyrShabat/TestMicroservices/auth-service/internal/services"
 	pb "github.com/VolodymyrShabat/TestMicroservices/auth-service/pkg/proto" // Import the generated proto package
 	"google.golang.org/grpc"
 )
 
-type AuthServer struct {
-	pb.UnimplementedAuthServiceServer
-}
-
 func main() {
-
-	cfg, err := config.LoadConfig("./config")
+	path := os.Getenv("cfg-path")
+	if path == "" {
+		path = "./config"
+	}
+	cfg, err := config.LoadConfig(path)
 	if err != nil {
 		log.Fatalf("Could not load config: %v", err)
 	}
@@ -29,8 +31,13 @@ func main() {
 		log.Fatalf("Failed to listen on port %d: %v", cfg.Server.Port, err)
 	}
 
-	grpcServer := grpc.NewServer()
-	pb.RegisterAuthServiceServer(grpcServer, &handlers.AuthHandler{})
+	grpcServer := grpc.NewServer(
+		grpc.UnaryInterceptor(middlewares.UnaryLoggingInterceptor),
+	)
+
+	authService := services.NewAuthService([]byte(cfg.Server.JwtSecret), []byte(cfg.Server.Salt))
+
+	pb.RegisterAuthServiceServer(grpcServer, handlers.NewAuthHandler(authService))
 
 	log.Printf("Auth Service listening on port %d...", cfg.Server.Port)
 	if err := grpcServer.Serve(lis); err != nil {

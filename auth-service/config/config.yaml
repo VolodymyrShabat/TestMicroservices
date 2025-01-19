@@ -1,2 +1,4 @@
 server:
   port: 50051
+  salt: test-value
+  jwtSecret: test-value

@@ -9,18 +9,18 @@ import (
 )
 
 // SetupRouter initializes all routes for the API Gateway.
-func SetupRouter(ah handlers.AuthHandlers, rh handlers.ResourceHandlers) *mux.Router {
+func SetupRouter(ah *handlers.AuthHandlers, rh *handlers.ResourcesHandlers) *mux.Router {
 	r := mux.NewRouter()
-
+	nonAuthenicatedApi := r.PathPrefix("/api/v1").Subrouter()
+	authenticatedApi := r.PathPrefix("/api/v1").Subrouter()
 	// Auth routes
-	r.HandleFunc("/users/sign_in", ah.LoginHandler).Methods(http.MethodPost)
-
+	nonAuthenicatedApi.HandleFunc("/users/sign_in", ah.SignInHandler).Methods(http.MethodPost)
 	// Resource routes
-	r.HandleFunc("/users", rh.GetUsersHandler).Methods(http.MethodGet)
-	r.HandleFunc("/books", rh.GetBooksHandler).Methods(http.MethodGet)
+	nonAuthenicatedApi.HandleFunc("/books", rh.GetBooksHandler).Methods(http.MethodGet)
+	authenticatedApi.HandleFunc("/users", rh.GetUsersHandler).Methods(http.MethodGet)
+	authenticatedApi.Use(middlewares.NewAuthMiddleware(ah.AuthService))
 
 	r.Use(middlewares.LoggingMiddleware)
-	// Additional routes, e.g. for user profiles, payments, etc.
 
 	return r
 }

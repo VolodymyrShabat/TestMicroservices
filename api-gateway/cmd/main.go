@@ -5,17 +5,22 @@ import (
 	"github.com/VolodymyrShabat/TestMicroservices/api-gateway/internal/config"
 	"github.com/VolodymyrShabat/TestMicroservices/api-gateway/internal/handlers"
 	"github.com/VolodymyrShabat/TestMicroservices/api-gateway/internal/routes"
+	"github.com/VolodymyrShabat/TestMicroservices/api-gateway/internal/services"
 	authpb "github.com/VolodymyrShabat/TestMicroservices/auth-service/pkg/proto"
 	resourcepb "github.com/VolodymyrShabat/TestMicroservices/resource-service/pkg/proto"
 	"google.golang.org/grpc"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
 func main() {
-
-	cfg, err := config.LoadConfig("./config")
+	path := os.Getenv("CFG_PATH")
+	if path == "" {
+		path = "./config"
+	}
+	cfg, err := config.LoadConfig(path)
 	if err != nil {
 		log.Fatalf("Could not load config: %v", err)
 	}
@@ -26,7 +31,7 @@ func main() {
 	}
 	defer connAuth.Close()
 
-	// 2. Create the gRPC client
+	// Create the gRPC client
 	authClient := authpb.NewAuthServiceClient(connAuth)
 
 	connResources, err := grpc.Dial(fmt.Sprintf("localhost:%d", cfg.Server.ResourcesPort), grpc.WithInsecure())
@@ -34,17 +39,16 @@ func main() {
 		log.Fatalf("Failed to connect to Auth service: %v", err)
 	}
 	defer connResources.Close()
+	resourcesClient := resourcepb.NewResourceServiceClient(connResources)
 
-	resourceClient := resourcepb.NewResourceServiceClient(connResources)
+	// Create auth and resources services
+	resourcesService := services.NewResourcesService(resourcesClient)
+	authService := services.NewAuthService(authClient)
 
-	authHandlers := &handlers.AuthHandlers{
-		AuthClient: authClient,
-	}
-	resourceHandlers := &handlers.ResourceHandlers{
-		ResourceClient: resourceClient,
-	}
+	authHandlers := handlers.NewAuthHandlers(authService)
+	resourceHandlers := handlers.NewResourcesHandlers(resourcesService)
 
-	r := routes.SetupRouter(*authHandlers, *resourceHandlers)
+	r := routes.SetupRouter(authHandlers, resourceHandlers)
 
 	srv := &http.Server{
 		Handler:      r,
