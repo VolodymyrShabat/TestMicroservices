@@ -6,21 +6,21 @@
 
 ```
 cd ./api-gateway
-go run main.go
+go run cmd/main.go
 ```
 
 ### Run auth-service
 
 ```
 cd ./auth-service
-go run main.go
+go run cmd/main.go
 ```
 
 ### Run resources-service
 
 ```
 cd ./resource-service
-go run main.go
+go run cmd/main.go
 ```
 
 ## Available endpoints
