@@ -23,8 +23,6 @@ cd ./resource-service
 go run main.go
 ```
 
-### Run api-gateway
-
 ## Available endpoints
 
 ## Auth
