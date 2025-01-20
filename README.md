@@ -1,5 +1,30 @@
 # Book microservice architecture
 
+## Start microservices
+
+### Run api-gateway
+
+```
+cd ./api-gateway
+go run main.go
+```
+
+### Run auth-service
+
+```
+cd ./auth-service
+go run main.go
+```
+
+### Run resources-service
+
+```
+cd ./resource-service
+go run main.go
+```
+
+### Run api-gateway
+
 ## Available endpoints
 
 ## Auth
